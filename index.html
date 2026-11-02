@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Raw Rhythm · Stéphane</title>
+<meta name="description" content="Rythme quotidien : rituel du matin, timeline, dopamine, permission." />
+<meta name="theme-color" content="#4a6741" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Raw Rhythm" />
+<link rel="stylesheet" href="fonts/fonts.css" />
+<style>
+:root {
+  --bg: #f4f0e8;
+  --bg-warm: #ebe3d3;
+  --ink: #1f2419;
+  --ink-soft: #4a5043;
+  --ink-faded: #8a8a7a;
+  --leaf: #4a6741;
+  --leaf-deep: #2d4527;
+  --clay: #b8593a;
+  --clay-soft: #d4836a;
+  --ochre: #c89b3c;
+  --sand: #e8dcc4;
+  --line: #d6cdb8;
+  --line-soft: #e2dac4;
+  --ocean: #6b8c8a;
+  --shadow: 0 1px 3px rgba(45, 69, 39, 0.08), 0 1px 2px rgba(45, 69, 39, 0.04);
+  --shadow-lift: 0 8px 24px rgba(45, 69, 39, 0.10), 0 2px 6px rgba(45, 69, 39, 0.06);
+  --display: 'Fraunces', Georgia, serif;
+  --body: 'Inter Tight', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(74, 103, 65, 0.05) 0%, transparent 35%),
+    radial-gradient(circle at 85% 80%, rgba(184, 89, 58, 0.04) 0%, transparent 40%);
+  padding: 32px 24px 80px;
+  padding-top: max(32px, env(safe-area-inset-top));
+  padding-bottom: max(80px, env(safe-area-inset-bottom));
+}
+
+.container { max-width: 1180px; margin: 0 auto; }
+
+/* HEADER */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.brand-mark {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--leaf);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.brand-title {
+  font-family: var(--display);
+  font-size: 42px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.brand-title em {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--leaf-deep);
+}
+
+.header-meta { text-align: right; }
+
+.date-line {
+  font-family: var(--display);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 4px;
+  text-transform: capitalize;
+}
+
+.clock {
+  font-family: var(--mono);
+  font-size: 26px;
+  color: var(--leaf-deep);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.sprint-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 10px;
+  background: var(--clay);
+  color: #fbf8f1;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sprint-badge:hover { background: var(--leaf-deep); }
+.sprint-badge.inactive { background: transparent; color: var(--ink-faded); border: 1px solid var(--line); }
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tab {
+  padding: 14px 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: var(--display);
+  font-size: 17px;
+  font-style: italic;
+  color: var(--ink-faded);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  margin-bottom: -1px;
+}
+
+.tab:hover {
+  color: var(--ink-soft);
+}
+
+.tab.active {
+  color: var(--leaf-deep);
+  border-bottom-color: var(--leaf-deep);
+  font-weight: 500;
+}
+
+.tab-icon {
+  margin-right: 8px;
+  font-style: normal;
+}
+
+.tab-meta {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 2px;
+  color: var(--ink-faded);
+}
+
+.tab.active .tab-meta { color: var(--leaf); }
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+@media (max-width: 980px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* CARDS */
+.card {
+  background: #fbf8f1;
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 26px 28px;
+  box-shadow: var(--shadow);
+}
+
+.card-title {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+
+.card-subtitle {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+  margin-bottom: 20px;
+}
+
+/* RITUAL */
+.ritual-block { margin-bottom: 18px; }
+.ritual-block:last-child { margin-bottom: 0; }
+
+.ritual-label {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--leaf);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.ritual-input, .ritual-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 8px 0;
+  font-family: var(--display);
+  font-size: 18px;
+  color: var(--ink);
+  font-style: italic;
+  resize: none;
+  transition: border-color 0.2s;
+  font-weight: 400;
+}
+
+.ritual-textarea {
+  font-size: 15px;
+  line-height: 1.5;
+  font-style: normal;
+  font-family: var(--body);
+  min-height: 60px;
+}
+
+.ritual-input:focus, .ritual-textarea:focus {
+  outline: none;
+  border-bottom-color: var(--leaf);
+}
+
+.ritual-help {
+  font-size: 12px;
+  color: var(--ink-faded);
+  margin-top: 6px;
+  font-style: italic;
+}
+
+/* TIMELINE */
+.timeline-item {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px dashed var(--line);
+  transition: all 0.25s;
+}
+
+.timeline-item:last-child { border-bottom: none; }
+
+.timeline-item.active {
+  background: linear-gradient(to right, rgba(74, 103, 65, 0.08), transparent 70%);
+  margin: 0 -28px;
+  padding: 14px 28px;
+  border-left: 3px solid var(--leaf);
+}
+
+.timeline-item.done { opacity: 0.5; }
+
+.timeline-time {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-weight: 500;
+  padding-top: 4px;
+  white-space: nowrap;
+}
+
+.timeline-item.active .timeline-time {
+  color: var(--leaf-deep);
+  font-weight: 600;
+}
+
+.timeline-content { display: flex; flex-direction: column; gap: 4px; }
+
+.timeline-name {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.timeline-tag {
+  font-size: 11px;
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+}
+
+.timeline-note {
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.tag-focus { color: var(--leaf-deep); }
+.tag-pause { color: var(--clay); }
+.tag-meal { color: var(--ochre); }
+.tag-move { color: var(--leaf); }
+.tag-life { color: var(--ocean); }
+.tag-signature { color: var(--clay); font-weight: 600; }
+
+.timeline-check {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.timeline-check:hover {
+  border-color: var(--leaf);
+  transform: scale(1.1);
+}
+
+.timeline-check.checked {
+  background: var(--leaf);
+  border-color: var(--leaf);
+}
+
+.timeline-check.checked::after {
+  content: '✓';
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.signature-row {
+  background: linear-gradient(to right, rgba(184, 89, 58, 0.06), transparent 80%);
+}
+
+.signature-row .timeline-name::before {
+  content: '◈ ';
+  color: var(--clay);
+}
+
+/* STATS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.stat {
+  padding: 16px 18px;
+  background: var(--bg-warm);
+  border-radius: 4px;
+  border-left: 3px solid var(--leaf);
+}
+
+.stat-value {
+  font-family: var(--display);
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--leaf-deep);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-family: var(--mono);
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+  font-family: var(--mono);
+}
+
+.progress-bar {
+  height: 6px;
+  background: var(--bg-warm);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--leaf), var(--leaf-deep));
+  transition: width 0.4s ease;
+  width: 0%;
+}
+
+/* DOPAMINE */
+.dopamine-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.dopamine-btn {
+  flex: 1;
+  min-width: 90px;
+  padding: 10px 8px;
+  border: 1px solid var(--line);
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  transition: all 0.2s;
+}
+
+.dopamine-btn:hover { transform: translateY(-1px); }
+
+.dopamine-btn.healthy { border-color: var(--leaf); color: var(--leaf-deep); }
+.dopamine-btn.healthy:hover { background: rgba(74, 103, 65, 0.08); }
+
+.dopamine-btn.cheap { border-color: var(--clay); color: var(--clay); }
+.dopamine-btn.cheap:hover { background: rgba(184, 89, 58, 0.06); }
+
+.dopamine-count {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.count-healthy { color: var(--leaf-deep); }
+.count-cheap { color: var(--clay); }
+
+/* QUOTE / LOYALTY */
+.loyalty-quote {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-soft);
+  border-left: 2px solid var(--clay);
+  padding: 4px 0 4px 14px;
+  margin: 16px 0;
+  line-height: 1.5;
+}
+
+/* HISTORY */
+.history-strip {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.history-day {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-soft);
+}
+
+.history-day.complete { background: var(--leaf); color: #fbf8f1; border-color: var(--leaf-deep); }
+.history-day.partial { background: var(--sand); border-color: var(--ochre); }
+.history-day.today { box-shadow: 0 0 0 2px var(--clay); }
+
+.weekly-section {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+/* BUTTONS */
+.btn {
+  display: inline-block;
+  padding: 10px 18px;
+  background: var(--leaf-deep);
+  color: #fbf8f1;
+  border: none;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  background: var(--leaf);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lift);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-warm);
+  border-color: var(--ink-soft);
+  color: var(--ink);
+}
+
+/* FOOTER */
+.app-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faded);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-actions { display: flex; gap: 8px; }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--leaf-deep);
+  color: #fbf8f1;
+  padding: 12px 24px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 100;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+::-webkit-scrollbar { height: 6px; width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-warm); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div>
+      <div class="brand-mark">— Raw Rhythm · Stéphane · Koh Lanta</div>
+      <div class="brand-title">Plein <em>potentiel</em>, sans s'éteindre.</div>
+    </div>
+    <div class="header-meta">
+      <div class="date-line" id="dateLine">—</div>
+      <div class="clock" id="clock">--:--</div>
+      <div id="sprintBadge" class="sprint-badge inactive" onclick="toggleSprint()">+ Mode sprint</div>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" id="tabWork" onclick="switchMode('work')">
+      <span class="tab-icon">◆</span>Scénario A
+      <span class="tab-meta">Travail · 8h</span>
+    </button>
+    <button class="tab" id="tabDive" onclick="switchMode('dive')">
+      <span class="tab-icon">🤿</span>Scénario B
+      <span class="tab-meta">Vacances plongée · 3h45</span>
+    </button>
+  </div>
+
+  <div class="grid">
+
+    <!-- RITUAL -->
+    <section class="card">
+      <h2 class="card-title">Rituel du matin</h2>
+      <div class="card-subtitle">— L'ancrage avant tout</div>
+
+      <div class="ritual-block">
+        <div class="ritual-label">L'unique chose du jour</div>
+        <input type="text" class="ritual-input" id="oneThing" placeholder="Si je ne fais que ça aujourd'hui, c'est gagné…" />
+        <div class="ritual-help">Une seule chose. Concrète. Faisable.</div>
+      </div>
+
+      <div class="ritual-block">
+        <div class="ritual-label">Reformulation loyauté</div>
+        <textarea class="ritual-textarea" id="loyaltyReframe" placeholder="En faisant ça aujourd'hui, je [verbe positif] pour ceux que j'aime, parce que…"></textarea>
+        <div class="ritual-help">Recoder la réussite comme un acte de lien, pas de trahison.</div>
+      </div>
+
+      <div class="ritual-block">
+        <div class="ritual-label">Énergie ce matin (1–10)</div>
+        <input type="number" class="ritual-input" id="energyLevel" min="1" max="10" placeholder="7" />
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="card">
+      <h2 class="card-title">Aujourd'hui</h2>
+      <div class="card-subtitle">— L'état réel</div>
+
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-value" id="focusHours">0h</div>
+          <div class="stat-label">Focus profond</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="totalWork">0h</div>
+          <div class="stat-label">Travail total</div>
+        </div>
+      </div>
+
+      <div class="progress-label">
+        <span>Objectif jour</span>
+        <span id="progressText">0 / 8h</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="weekly-section">
+        <div class="ritual-label" style="margin-bottom: 8px;">Cette semaine · 6 jours visés</div>
+        <div class="history-strip" id="historyStrip"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- TIMELINE -->
+  <section class="card" style="margin-bottom: 28px;">
+    <h2 class="card-title">Le rythme du jour</h2>
+    <div class="card-subtitle">— Coche au fur et à mesure · les blocs ◈ sont tes rituels signature</div>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <!-- DOPAMINE + LOYALTY -->
+  <div class="grid">
+
+    <section class="card">
+      <h2 class="card-title">Dopamine du jour</h2>
+      <div class="card-subtitle">— Saine ou cheap ? Observe sans juger.</div>
+
+      <p style="font-size: 13px; color: var(--ink-soft); margin-bottom: 14px;">
+        Quand tu prends un break, clique sur le type. C'est juste pour voir les patterns — pas pour culpabiliser.
+      </p>
+
+      <div class="dopamine-bar">
+        <button class="dopamine-btn healthy" onclick="addDopamine('healthy','escape')">+ Pause Escape Café</button>
+        <button class="dopamine-btn healthy" onclick="addDopamine('healthy','marche')">+ Marche / plage</button>
+        <button class="dopamine-btn healthy" onclick="addDopamine('healthy','repas')">+ Repas conscient</button>
+      </div>
+      <div class="dopamine-bar">
+        <button class="dopamine-btn healthy" onclick="addDopamine('healthy','yoga')">+ Yoga / sport</button>
+        <button class="dopamine-btn healthy" onclick="addDopamine('healthy','proches')">+ Appel / proches</button>
+        <button class="dopamine-btn healthy" onclick="addDopamine('healthy','nature')">+ Nature / sunset</button>
+      </div>
+      <div class="dopamine-bar" style="margin-top: 10px;">
+        <button class="dopamine-btn cheap" onclick="addDopamine('cheap','scroll')">– Scroll</button>
+        <button class="dopamine-btn cheap" onclick="addDopamine('cheap','grignote')">– Grignotage</button>
+        <button class="dopamine-btn cheap" onclick="addDopamine('cheap','switch')">– Switch projet</button>
+      </div>
+
+      <div class="dopamine-count">
+        <span class="count-healthy">Saines : <strong id="healthyCount">0</strong></span>
+        <span class="count-cheap">Cheap : <strong id="cheapCount">0</strong></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">Permission</h2>
+      <div class="card-subtitle">— L'antidote au sabotage</div>
+
+      <div class="loyalty-quote" id="dailyQuote">—</div>
+
+      <div class="ritual-block">
+        <div class="ritual-label">Permission du jour</div>
+        <textarea class="ritual-textarea" id="permission" placeholder="Aujourd'hui, j'ai le droit de prendre de la place parce que…"></textarea>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-top: 16px;">
+        <button class="btn" onclick="saveAll()">Enregistrer le jour</button>
+        <button class="btn btn-secondary" onclick="resetDay()">Réinitialiser</button>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="app-footer">
+    <div>— Raw Rhythm · construit pour ton cerveau, pas contre lui</div>
+    <div class="footer-actions">
+      <button class="btn btn-secondary" onclick="exportData()">Exporter</button>
+      <button class="btn btn-secondary" onclick="showHelp()">Comment l'utiliser</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">—</div>
+
+<script>
+// ============ DATA MODEL ============
+
+const TIMELINE_NORMAL = [
+  { id: 'wake',    start: '06:30', end: '06:30', name: 'Réveil',                            tag: 'life',      tagLabel: 'Vie',              minutes: 0,   note: 'Avant la chaleur' },
+  { id: 'yoga',    start: '06:30', end: '07:45', name: 'Yoga à jeûn + douche',              tag: 'move',      tagLabel: 'Corps',            minutes: 0,   note: '45min-1h, alignement Raw Adventure' },
+  { id: 'bfst',    start: '07:45', end: '08:15', name: 'Petit-déj conscient',               tag: 'meal',      tagLabel: 'Repas',            minutes: 0,   note: 'Sans café — sans écran' },
+  { id: 'bike1',   start: '08:15', end: '08:30', name: 'Vélo → coworking',                  tag: 'move',      tagLabel: 'Transition',       minutes: 0,   note: '15 min de transition mentale' },
+  { id: 'focus1',  start: '08:30', end: '10:30', name: 'Session 1 — Focus profond',         tag: 'focus',     tagLabel: 'Focus profond',    minutes: 120, note: 'V1 app · code · stratégie' },
+  { id: 'pause1',  start: '10:30', end: '10:50', name: 'Pause active — marche + eau',       tag: 'pause',     tagLabel: 'Reset',            minutes: 0,   note: 'Pas de tel, pas de manger. 20min reset.' },
+  { id: 'focus2',  start: '10:50', end: '11:30', name: 'Session 2 — Focus profond',         tag: 'focus',     tagLabel: 'Focus profond',    minutes: 40,  note: 'Sprint court avant la récompense' },
+  { id: 'escape',  start: '11:30', end: '12:30', name: 'Escape Café · Koh Lanta',           tag: 'signature', tagLabel: 'Rituel signature', minutes: 0,   note: 'Capuccino au bord de la mer. Sans écran. Carnet papier OK.' },
+  { id: 'focus3',  start: '12:30', end: '14:00', name: 'Session 3 — Focus profond',         tag: 'focus',     tagLabel: 'Focus profond',    minutes: 90,  note: 'Boost post-café · idées qui ont mûri à Escape' },
+  { id: 'lunch',   start: '14:00', end: '15:00', name: 'Déjeuner conscient — sans écran',   tag: 'meal',      tagLabel: 'Récompense',       minutes: 0,   note: 'À table. Vraiment. C\'est non-négociable.' },
+  { id: 'focus4',  start: '15:00', end: '17:00', name: 'Session 4 — Admin / coordination',  tag: 'focus',     tagLabel: 'Travail léger',    minutes: 120, note: 'Emails · POD · Trello · contenu · calls équipe' },
+  { id: 'bike2',   start: '17:00', end: '17:15', name: 'Vélo retour',                       tag: 'move',      tagLabel: 'Transition',       minutes: 0,   note: 'Bascule mode vie' },
+  { id: 'thai',    start: '17:15', end: '19:00', name: 'Mode Thaï — sport · plage · sunset', tag: 'life',     tagLabel: 'Vie',              minutes: 0,   note: 'Coucher de soleil 18h30. Off complet du travail.' },
+];
+
+const TIMELINE_SPRINT = [
+  ...TIMELINE_NORMAL,
+  { id: 'sprint',  start: '20:00', end: '22:00', name: 'Sprint du soir (mode exceptionnel)', tag: 'focus',    tagLabel: 'Sprint',           minutes: 120, note: '1×/sem maximum. Pour pousser un projet, pas un défaut.' },
+];
+
+const TIMELINE_DIVE = [
+  { id: 'd_wake',    start: '06:45', end: '07:00', name: 'Réveil + douche + brossage',          tag: 'life',      tagLabel: 'Préparation',      minutes: 0,   note: '15 min pour se réveiller en douceur' },
+  { id: 'd_yoga',    start: '07:00', end: '07:30', name: 'Mini-yoga 30 min',                    tag: 'move',      tagLabel: 'Corps',            minutes: 0,   note: 'Doux, préparation respiratoire — pas trop intense avant plongée' },
+  { id: 'd_focus1',  start: '07:30', end: '08:00', name: 'Session matin — Focus court',         tag: 'focus',     tagLabel: 'Focus profond',    minutes: 30,  note: '30 min sur UNE chose précise. Victoire avant la mer.' },
+  { id: 'd_prep',    start: '08:00', end: '08:15', name: 'Préparation matériel plongée',        tag: 'move',      tagLabel: 'Préparation',      minutes: 0,   note: 'Club sur place à l\'hôtel, pas de trajet' },
+  { id: 'd_dive1',   start: '08:15', end: '10:45', name: 'Plongée 1',                           tag: 'signature', tagLabel: 'Rituel sacré',     minutes: 0,   note: 'Off complet. Le travail attend.' },
+  { id: 'd_escape',  start: '10:45', end: '11:30', name: 'Pause Escape Café · entre 2 plongées',tag: 'signature', tagLabel: 'Rituel signature', minutes: 0,   note: 'Ton café unique du jour. L\'esprit Escape, peu importe où tu es. 🌊' },
+  { id: 'd_dive2',   start: '11:30', end: '13:00', name: 'Plongée 2',                           tag: 'signature', tagLabel: 'Rituel sacré',     minutes: 0,   note: 'Dernière immersion. Profite.' },
+  { id: 'd_lunch',   start: '13:00', end: '13:45', name: 'Retour + déjeuner conscient',         tag: 'meal',      tagLabel: 'Récompense',       minutes: 0,   note: 'Hydratant. Manger sans écran.' },
+  { id: 'd_nap',     start: '13:45', end: '15:00', name: 'Sieste / repos',                      tag: 'life',      tagLabel: 'Récup',            minutes: 0,   note: 'NON-NÉGOCIABLE. Sécurité décompression + récup système nerveux.' },
+  { id: 'd_focus2',  start: '15:00', end: '17:30', name: 'Session 2 — Travail intensif',        tag: 'focus',     tagLabel: 'Focus profond',    minutes: 150, note: '2h30 de travail dense. Ton cerveau est reposé, le corps détendu. Profite de l\'état.' },
+  { id: 'd_montage', start: '17:30', end: '18:15', name: 'Montage films plongée — pour le plaisir', tag: 'focus', tagLabel: 'Créatif · plaisir', minutes: 45,  note: '45 min max. C\'est de la récompense, pas du travail à pousser.' },
+  { id: 'd_courses', start: '18:15', end: '18:45', name: 'Courses avant sunset',                tag: 'life',      tagLabel: 'Logistique',       minutes: 0,   note: 'Tant qu\'il fait jour' },
+  { id: 'd_sunset',  start: '18:45', end: '20:00', name: 'Sunset + soirée',                     tag: 'life',      tagLabel: 'Vie',              minutes: 0,   note: 'Coucher de soleil sacré.' },
+];
+
+const QUOTES = [
+  "Réussir n'est pas trahir. Prendre sa place, c'est donner aux autres la permission de prendre la leur.",
+  "Ton plein potentiel ne fait d'ombre à personne — il éclaire.",
+  "La densité bat la durée. 4h pleines > 8h fragmentées.",
+  "Le sabotage est une loyauté mal placée. Aujourd'hui, choisis-toi.",
+  "Ce n'est pas un défaut d'avoir un cerveau qui demande beaucoup. C'est un design à honorer.",
+  "Une pause planifiée n'est pas une fuite. C'est de la stratégie.",
+  "Tu n'as pas à mériter de réussir. Tu as juste à te laisser réussir.",
+];
+
+// ============ STATE ============
+
+const STORAGE_KEY = 'raw_rhythm_v1';
+
+function todayKey() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function defaultDayState() {
+  return {
+    date: todayKey(),
+    mode: 'work',     // 'work' or 'dive'
+    sprint: false,
+    oneThing: '',
+    loyaltyReframe: '',
+    energyLevel: '',
+    permission: '',
+    checked: {},
+    dopamine: { healthy: 0, cheap: 0, log: [] },
+  };
+}
+
+function loadAll() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { days: {}, current: defaultDayState() };
+    const data = JSON.parse(raw);
+    if (!data.days) data.days = {};
+    if (!data.current || data.current.date !== todayKey()) {
+      if (data.current && data.current.date) {
+        data.days[data.current.date] = data.current;
+      }
+      data.current = defaultDayState();
+    }
+    return data;
+  } catch (e) {
+    return { days: {}, current: defaultDayState() };
+  }
+}
+
+function persist() {
+  state.current.date = todayKey();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+let state = loadAll();
+
+// ============ TIMELINE LOGIC ============
+
+function getTimeline() {
+  if (state.current.mode === 'dive') return TIMELINE_DIVE;
+  return state.current.sprint ? TIMELINE_SPRINT : TIMELINE_NORMAL;
+}
+
+function getDailyTarget() {
+  if (state.current.mode === 'dive') return 225; // 3h45 (30 + 150 + 45)
+  return state.current.sprint ? 600 : 480;
+}
+
+function getTargetLabel() {
+  if (state.current.mode === 'dive') return '3h45';
+  return state.current.sprint ? '10h' : '8h';
+}
+
+function timeToMinutes(t) {
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+}
+
+function currentMinutes() {
+  const d = new Date();
+  return d.getHours() * 60 + d.getMinutes();
+}
+
+function isActive(item) {
+  const now = currentMinutes();
+  return now >= timeToMinutes(item.start) && now < timeToMinutes(item.end);
+}
+
+function isDone(item) {
+  return currentMinutes() >= timeToMinutes(item.end);
+}
+
+function renderTimeline() {
+  const container = document.getElementById('timeline');
+  container.innerHTML = '';
+  getTimeline().forEach(item => {
+    const div = document.createElement('div');
+    let classes = 'timeline-item';
+    if (item.tag === 'signature') classes += ' signature-row';
+    if (isActive(item)) classes += ' active';
+    else if (isDone(item)) classes += ' done';
+    div.className = classes;
+
+    const checked = state.current.checked[item.id];
+    const tagClass = `tag-${item.tag}`;
+
+    div.innerHTML = `
+      <div class="timeline-time">${item.start}–${item.end}</div>
+      <div class="timeline-content">
+        <div class="timeline-name">${item.name}</div>
+        <div class="timeline-tag ${tagClass}">${item.tagLabel}${item.minutes ? ' · ' + item.minutes + ' min' : ''}</div>
+        ${item.note ? `<div class="timeline-note">${item.note}</div>` : ''}
+      </div>
+      <div class="timeline-check ${checked ? 'checked' : ''}" data-id="${item.id}"></div>
+    `;
+
+    div.querySelector('.timeline-check').addEventListener('click', () => toggleCheck(item.id));
+    container.appendChild(div);
+  });
+}
+
+function toggleCheck(id) {
+  state.current.checked[id] = !state.current.checked[id];
+  persist();
+  renderTimeline();
+  renderStats();
+}
+
+// ============ STATS ============
+
+function renderStats() {
+  const tl = getTimeline();
+  let focusMins = 0;
+  let totalMins = 0;
+
+  tl.forEach(item => {
+    if (state.current.checked[item.id] && item.minutes > 0) {
+      totalMins += item.minutes;
+      if (item.tag === 'focus') {
+        focusMins += item.minutes;
+      }
+    }
+  });
+
+  document.getElementById('focusHours').textContent = formatHours(focusMins);
+  document.getElementById('totalWork').textContent = formatHours(totalMins);
+
+  const target = getDailyTarget();
+  const pct = Math.min(100, (totalMins / target) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent =
+    `${formatHours(totalMins)} / ${getTargetLabel()}`;
+
+  document.getElementById('healthyCount').textContent = state.current.dopamine.healthy;
+  document.getElementById('cheapCount').textContent = state.current.dopamine.cheap;
+}
+
+function formatHours(mins) {
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  if (h === 0) return `${m}m`;
+  if (m === 0) return `${h}h`;
+  return `${h}h${m.toString().padStart(2, '0')}`;
+}
+
+// ============ DOPAMINE ============
+
+function addDopamine(type, kind) {
+  state.current.dopamine[type]++;
+  state.current.dopamine.log.push({
+    type, kind, time: new Date().toISOString()
+  });
+  persist();
+  renderStats();
+  toast(`+1 ${type === 'healthy' ? 'dopamine saine' : 'dopamine cheap'} (${kind})`);
+}
+
+// ============ SPRINT ============
+
+function toggleSprint() {
+  if (state.current.mode === 'dive') {
+    toast('Sprint indisponible en mode plongée');
+    return;
+  }
+  state.current.sprint = !state.current.sprint;
+  updateSprintBadge();
+  persist();
+  renderTimeline();
+  renderStats();
+}
+
+function updateSprintBadge() {
+  const badge = document.getElementById('sprintBadge');
+  if (state.current.mode === 'dive') {
+    badge.style.display = 'none';
+    return;
+  }
+  badge.style.display = 'inline-block';
+  if (state.current.sprint) {
+    badge.classList.remove('inactive');
+    badge.textContent = '◆ Sprint actif · 10h';
+  } else {
+    badge.classList.add('inactive');
+    badge.textContent = '+ Mode sprint';
+  }
+}
+
+function switchMode(mode) {
+  state.current.mode = mode;
+  document.getElementById('tabWork').classList.toggle('active', mode === 'work');
+  document.getElementById('tabDive').classList.toggle('active', mode === 'dive');
+  updateSprintBadge();
+  persist();
+  renderTimeline();
+  renderStats();
+  toast(mode === 'dive' ? 'Mode vacances plongée 🤿' : 'Mode travail ◆');
+}
+
+// ============ HISTORY ============
+
+function renderHistory() {
+  const strip = document.getElementById('historyStrip');
+  strip.innerHTML = '';
+
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0=Sun
+  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+
+  const labels = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + mondayOffset + i);
+    const key = d.toISOString().slice(0, 10);
+    const isToday = key === todayKey();
+    const day = isToday ? state.current : state.days[key];
+
+    let cls = 'history-day';
+    if (day) {
+      const totalChecks = Object.values(day.checked || {}).filter(Boolean).length;
+      if (totalChecks >= 8) cls += ' complete';
+      else if (totalChecks >= 3) cls += ' partial';
+    }
+    if (isToday) cls += ' today';
+
+    const div = document.createElement('div');
+    div.className = cls;
+    div.textContent = labels[i];
+    div.title = key;
+    strip.appendChild(div);
+  }
+}
+
+// ============ INPUTS PERSISTENCE ============
+
+function bindInputs() {
+  ['oneThing', 'loyaltyReframe', 'energyLevel', 'permission'].forEach(id => {
+    const el = document.getElementById(id);
+    el.value = state.current[id] || '';
+    el.addEventListener('input', () => {
+      state.current[id] = el.value;
+      persist();
+    });
+  });
+}
+
+// ============ CLOCK ============
+
+function renderClock() {
+  const d = new Date();
+  const h = d.getHours().toString().padStart(2, '0');
+  const m = d.getMinutes().toString().padStart(2, '0');
+  document.getElementById('clock').textContent = `${h}:${m}`;
+
+  const months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+                  'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  const days = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+  document.getElementById('dateLine').textContent =
+    `${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]}`;
+}
+
+// ============ QUOTE ============
+
+function renderQuote() {
+  const d = new Date();
+  const idx = (d.getDate() + d.getMonth()) % QUOTES.length;
+  document.getElementById('dailyQuote').textContent = `« ${QUOTES[idx]} »`;
+}
+
+// ============ TOAST ============
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timeout);
+  t._timeout = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ============ ACTIONS ============
+
+function saveAll() {
+  persist();
+  toast('Jour enregistré');
+}
+
+function resetDay() {
+  if (!confirm('Réinitialiser tout le jour ? (les autres jours sont conservés)')) return;
+  state.current = defaultDayState();
+  persist();
+  bindInputs();
+  renderTimeline();
+  renderStats();
+  renderHistory();
+  toast('Jour réinitialisé');
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `raw-rhythm-${todayKey()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Données exportées');
+}
+
+function showHelp() {
+  alert(`Raw Rhythm — Comment ça marche :
+
+DEUX SCÉNARIOS :
+◆ Scénario A — Journée travail (8h, objectif standard)
+🤿 Scénario B — Vacances plongée (2h, journée centrée mer)
+Tu bascules entre les deux avec les onglets en haut.
+
+1. Le matin, remplis le RITUEL : l'unique chose du jour + reformulation loyauté + énergie.
+
+2. Pendant la journée, COCHE les blocs de la timeline au fur et à mesure. Le bloc actif est mis en évidence automatiquement selon l'heure.
+
+3. Quand tu prends un break, clique sur le bouton DOPAMINE correspondant. Pas pour te juger — pour voir tes patterns sur la semaine.
+
+4. ◈ ESCAPE CAFÉ est ton rituel signature de mi-journée (11h30-12h30 en mode travail, 15h30-16h après sieste en mode plongée). Protège-le.
+
+5. MODE SPRINT (badge en haut à droite) = uniquement en scénario A, 1× par semaine max, pour ajouter une session 20h-22h quand un projet le demande.
+
+6. Le soir, écris ta PERMISSION du jour. Trois lignes suffisent.
+
+7. EXPORTER te permet de sauvegarder tes données en local (JSON).
+
+Démarrage progressif (scénario A) :
+• Semaine 1 : juste rituel matin + Escape Café
+• Semaine 2 : ajoute la pause active de 10h30 sans téléphone
+• Semaine 3 : ajoute le déjeuner sans écran
+• Semaine 4 : viens viser les 8h complètes
+
+En scénario B (plongée) :
+• Pause Escape Café = ton café unique, savouré entre les 2 plongées
+• La sieste 13h45-15h est NON-NÉGOCIABLE (sécurité décompression)
+• Session intense 15h-17h30 : ton cerveau est reposé, profite
+• Montage films 17h30-18h15 = plaisir, 45min max, pas du travail à pousser
+• Courses avant 18h45, puis sunset sacré`);
+}
+
+// ============ INIT ============
+
+function init() {
+  // Tab state
+  if (!state.current.mode) state.current.mode = 'work';
+  document.getElementById('tabWork').classList.toggle('active', state.current.mode === 'work');
+  document.getElementById('tabDive').classList.toggle('active', state.current.mode === 'dive');
+  updateSprintBadge();
+
+  bindInputs();
+  renderClock();
+  renderTimeline();
+  renderStats();
+  renderHistory();
+  renderQuote();
+
+  setInterval(() => {
+    renderClock();
+    renderTimeline();
+  }, 30000);
+}
+
+init();
+
+// ============ PWA ============
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      reg.addEventListener('updatefound', () => {
+        const worker = reg.installing;
+        if (!worker) return;
+        worker.addEventListener('statechange', () => {
+          if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+            toast('Nouvelle version · recharge l\'app');
+          }
+        });
+      });
+    }).catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
